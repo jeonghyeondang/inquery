@@ -1,0 +1,27 @@
+
+package ai.inquery.server.web.api.controller.user.request;
+
+import java.io.Serial;
+
+import ai.inquery.server.tools.base.wrapper.param.PageQueryParam;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+/**
+ */
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserQueryRequest extends PageQueryParam {
+
+    @Serial
+    private static final long serialVersionUID = 5663790872812326134L;
+    /**
+     * Username magic search
+     */
+    private String keyWord;
+}

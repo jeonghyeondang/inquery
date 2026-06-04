@@ -1,0 +1,61 @@
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VS Code / Cursor ###
+.vscode/
+.cursor/
+
+### Claude Code (local agent settings) ###
+.claude/settings.local.json
+
+### OS files ###
+.DS_Store
+Thumbs.db
+
+### Maven ###
+**/target/
+
+### Logs ###
+*.log
+*.log.*
+logs/
+server.log
+
+### Environment variables ###
+.env
+.env.local
+.env.*.local
+
+### Sensitive files ###
+cookies.txt
+*.key
+*.pem
+*.p12
+*.jks
+*.secret
+
+### Build artifacts & libs ###
+/inquery-server/inquery-server-web-start/src/main/resources/lib/*
+/inquery-server/inquery-server-web-start/lib/*
+/lib
+/out/*
+
+### Frontend ###
+node_modules/
+
+### Misc ###
+presenton/
+temp_*/
+*.tmp
+.public-export-tmp/

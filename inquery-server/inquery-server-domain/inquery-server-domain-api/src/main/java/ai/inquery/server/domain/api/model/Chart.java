@@ -1,0 +1,87 @@
+package ai.inquery.server.domain.api.model;
+
+import java.util.Date;
+
+import lombok.Data;
+
+/**
+ * @version Chart.java, v 0.1 June 9, 2023 15:37 moji Exp $
+ */
+@Data
+public class Chart {
+
+    /**
+     * primary key
+     */
+    private Long id;
+
+    /**
+     * creation time
+     */
+    private Date gmtCreate;
+
+    /**
+     * modified time
+     */
+    private Date gmtModified;
+
+    /**
+     * Chart name
+     */
+    private String name;
+
+    /**
+     * Chart description
+     */
+    private String description;
+
+    /**
+     * schema
+     */
+    private String schema;
+
+    /**
+     * Data source connection ID
+     */
+    private Long dataSourceId;
+
+    /**
+     * Data source name
+     */
+    private String dataSourceName;
+
+    /**
+     * schema name
+     */
+    private String schemaName;
+
+    /**
+     * Database type
+     */
+    private String type;
+
+    /**
+     * DB name
+     */
+    private String databaseName;
+
+    /**
+     * ddl content
+     */
+    private String ddl;
+
+    /**
+     * Whether it has been deleted, y means deleted, n means not deleted
+     */
+    private String deleted;
+
+    /**
+     * user id
+     */
+    private Long userId;
+
+    /**
+     * Source type: AI_CHAT, WORKSPACE, DASHBOARD
+     */
+    private String sourceType;
+}

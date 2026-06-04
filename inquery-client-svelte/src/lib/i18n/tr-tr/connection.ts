@@ -1,0 +1,22 @@
+export default {
+	'connection.title': 'Bağlantılar',
+	'connection.title.connections': 'Bağlantılar',
+	'connection.title.createConnection': 'Yeni Bağlantı',
+	'connection.title.editConnection': 'Bağlantıyı Düzenle',
+	'connection.label.name': 'Ad',
+	'connection.label.host': 'Sunucu',
+	'connection.label.database': 'Veritabanı',
+	'connection.label.port': 'Port',
+	'connection.button.testConnection': 'Test',
+	'connection.button.addConnection': 'Bağlantı Ekle',
+	'connection.button.connect': 'Bağlan',
+	'connection.button.remove': 'Kaldır',
+	'connection.button.createConnection': 'Bağlantı Oluştur',
+	'connection.tips.noConnection': 'Henüz bir bağlantı oluşturmadınız',
+	'connection.tips.noConnectionTips': 'Yeni bir veritabanı bağlantısı oluşturarak başlayın',
+	'connection.message.testConnectResult': 'Test bağlantısı {1}',
+	'connection.label.advancedConfiguration': 'Gelişmiş Yapılandırma',
+	'connection.label.sshConfiguration': 'SSH Yapılandırma',
+	'connection.label.authentication': 'Kimlik Doğrulama',
+	'connection.text.description': 'Veritabanı bağlantılarınızı yönetin'
+};

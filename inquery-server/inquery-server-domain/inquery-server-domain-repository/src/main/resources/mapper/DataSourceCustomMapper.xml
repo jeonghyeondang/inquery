@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ai.inquery.server.domain.repository.mapper.DataSourceCustomMapper">
+
+    <select id="selectPageWithPermission" resultType="ai.inquery.server.domain.repository.entity.DataSourceDO">
+        select ds.*
+        from data_source ds
+        <where>
+            <choose>
+                <when test="admin == true and kind != null">
+                    <!-- Admin on team page: see all data sources of the specified kind -->
+                </when>
+                <otherwise>
+                    and (ds.user_id = #{userId}
+                    or exists(
+                    select 1 from data_source_access dsa where dsa.access_object_type = 'USER'
+                    and dsa.access_object_id = #{userId}
+                    and dsa.data_source_id = ds.id
+                    )
+                    or exists (
+                    select 1
+                    from data_source_access dsa
+                    LEFT JOIN team_user tu on tu.team_id = dsa.access_object_id and dsa.access_object_type = 'TEAM'
+                    left join team t on t.id = tu.team_id
+                    where tu.user_id = #{userId}
+                    and dsa.data_source_id = ds.id
+                    and t.status = 'VALID'
+                    )
+                    )
+                </otherwise>
+            </choose>
+            <if test="searchKey != '' and searchKey != null ">
+                and (ds.alias like '%' || #{searchKey} || '%' or ds.url like '%' || #{searchKey} || '%')
+            </if>
+            <if test="kind != null">
+                and ds.kind = #{kind}
+            </if>
+            <if test="orderBy != null ">
+                ${orderBy}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ai.inquery.server.domain.repository.mapper.TeamUserCustomMapper">
+    <select id="comprehensivePageQuery" resultType="ai.inquery.server.domain.repository.entity.TeamUserDO">
+        select tu.*
+        from team_user tu
+        <if test="teamSearchKey != null">
+            left join team t on t.id = tu.team_id
+        </if>
+        <if test="userSearchKey != null">
+            left join inquery_user du on du.id = tu.user_id
+        </if>
+        <where>
+            <if test="teamId != null ">
+                and tu.team_id = #{teamId}
+            </if>
+            <if test="userId != null ">
+                and tu.user_id = #{userId}
+            </if>
+
+            <if test="teamSearchKey != null ">
+                and (t.code like '%' || #{teamSearchKey} || '%' or t.name like '%' || #{teamSearchKey} || '%')
+                and t.status = 'VALID'
+            </if>
+            <if test="userSearchKey != null ">
+                and (du.user_name like '%' || #{userSearchKey} || '%' or du.nick_name like '%' || #{userSearchKey} || '%' or
+                du.email like '%' || #{userSearchKey} || '%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

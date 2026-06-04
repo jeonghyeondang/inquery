@@ -1,0 +1,22 @@
+export default {
+	'connection.title': 'Connections',
+	'connection.title.connections': 'Connections',
+	'connection.title.createConnection': 'New Connection',
+	'connection.title.editConnection': 'Edit Connection',
+	'connection.label.name': 'Name',
+	'connection.label.host': 'Host',
+	'connection.label.database': 'Database',
+	'connection.label.port': 'Port',
+	'connection.button.testConnection': 'Test',
+	'connection.button.addConnection': 'Add Connection',
+	'connection.button.connect': 'Connect',
+	'connection.button.remove': 'Remove',
+	'connection.button.createConnection': 'Create Connection',
+	'connection.tips.noConnection': 'You have not created any connections yet',
+	'connection.tips.noConnectionTips': 'Get started by creating a new database connection',
+	'connection.message.testConnectResult': 'Test connection is {1}',
+	'connection.label.advancedConfiguration': 'Advanced Configuration',
+	'connection.label.sshConfiguration': 'SSH Configuration',
+	'connection.label.authentication': 'Authentication',
+	'connection.text.description': 'Manage your database connections'
+};

@@ -1,0 +1,28 @@
+package ai.inquery.server.domain.api.param.datasource.access;
+
+import java.util.List;
+
+import ai.inquery.server.tools.base.wrapper.param.PageQueryParam;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+/**
+ * Data Source Access
+ *
+ */
+@Data
+public class DataSourceAccessBatchCreatParam extends PageQueryParam {
+    /**
+     * Data source id
+     */
+    @NotNull
+    private Long dataSourceId;
+
+    /**
+     * DataSource Access Object
+     */
+    @NotNull
+    @NotEmpty
+    private List<DataSourceAccessObjectParam> accessObjectList;
+}

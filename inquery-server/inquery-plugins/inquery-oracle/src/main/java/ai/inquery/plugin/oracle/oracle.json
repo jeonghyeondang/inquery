@@ -1,0 +1,21 @@
+{
+  "dbType": "ORACLE",
+  "supportDatabase": false,
+  "supportSchema": true,
+  "driverConfigList": [
+    {
+      "url": "jdbc:oracle:thin:@localhost:1521:XE",
+      "custom": false,
+      "defaultDriver": true,
+      "downloadJdbcDriverUrls": [
+        "https://repo1.maven.org/maven2/com/oracle/database/jdbc/ojdbc11/21.5.0.0/ojdbc11-21.5.0.0.jar",
+        "https://repo1.maven.org/maven2/com/oracle/database/nls/orai18n/21.5.0.0/orai18n-21.5.0.0.jar",
+        "https://repo1.maven.org/maven2/com/oracle/database/xml/xmlparserv2/21.5.0.0/xmlparserv2-21.5.0.0.jar",
+        "https://repo1.maven.org/maven2/com/oracle/database/xml/xdb/21.5.0.0/xdb-21.5.0.0.jar"
+      ],
+      "jdbcDriver": "ojdbc11-21.5.0.0.jar,orai18n-21.5.0.0.jar,xmlparserv2-21.5.0.0.jar,xdb-21.5.0.0.jar",
+      "jdbcDriverClass": "oracle.jdbc.driver.OracleDriver"
+    }
+  ],
+  "name": "Oracle"
+}

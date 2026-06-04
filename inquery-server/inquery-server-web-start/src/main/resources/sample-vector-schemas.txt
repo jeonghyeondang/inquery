@@ -1,0 +1,154 @@
+---TABLE_START: customers---
+Table: customers
+Description: Customer master table containing profile and segmentation data. Each row represents a unique registered customer with their contact info, location, and loyalty tier (Regular, Premium, VIP).
+Columns:
+  - id (integer) [PRIMARY KEY]: Unique customer identifier (auto-increment PK)
+  - name (varchar(100)): Full name of the customer [Examples: Emma Johnson, Liam Smith, Sophia Brown]
+  - email (varchar(150)): Unique email address used for login and communication [Examples: emma.j@example.com, liam.s@example.com]
+  - city (varchar(80)) [NULLABLE]: City where the customer is located [Examples: New York, London, Toronto, Seoul]
+  - country (varchar(60)) [NULLABLE]: Country where the customer resides [Examples: USA, UK, Canada, South Korea]
+  - segment (varchar(30)) [NULLABLE]: Customer loyalty tier: Regular, Premium, or VIP [Examples: Regular, Premium, VIP]
+  - created_at (timestamp) [NULLABLE]: Timestamp when the customer record was created
+[Lineage]
+Downstream (used by): customer_lifetime_value
+---TABLE_END---
+
+---TABLE_START: products---
+Table: products
+Description: Product catalog containing all items available for purchase. Includes pricing, inventory stock levels, and category classification (Electronics, Clothing, Sports, Home, Accessories).
+Columns:
+  - id (integer) [PRIMARY KEY]: Unique product identifier (auto-increment PK)
+  - name (varchar(150)): Product display name [Examples: Wireless Headphones Pro, Smart Watch Series 5]
+  - category (varchar(60)): Product category [Examples: Electronics, Clothing, Sports, Home, Accessories]
+  - price (numeric(10,2)): Unit price in USD [Examples: 149.99, 34.99, 299.99]
+  - stock (integer) [NULLABLE]: Current available inventory count [Examples: 250, 500, 120]
+  - is_active (boolean) [NULLABLE]: Whether the product is currently available for sale
+  - created_at (timestamp) [NULLABLE]: Timestamp when the product was added to catalog
+[Lineage]
+Downstream (used by): product_sales_ranking, category_sales_summary
+---TABLE_END---
+
+---TABLE_START: orders---
+Table: orders
+Description: Order transactions placed by customers. Tracks order lifecycle status (pending -> processing -> shipped -> delivered), total amount, and shipping destination. Links to customers via customer_id FK.
+Columns:
+  - id (integer) [PRIMARY KEY]: Unique order identifier (auto-increment PK)
+  - customer_id (integer) [NULLABLE]: FK to customers.id - the customer who placed this order [Examples: 1, 5, 11]
+  - order_date (date): Date when the order was placed [Examples: 2025-03-15, 2025-06-20, 2025-12-01]
+  - total_amount (numeric(12,2)): Total monetary value of the order in USD [Examples: 184.98, 299.99, 449.98]
+  - status (varchar(20)) [NULLABLE]: Order lifecycle status [Examples: pending, processing, shipped, delivered]
+  - shipping_city (varchar(80)) [NULLABLE]: City where the order is being shipped to [Examples: New York, Seoul, London]
+  - created_at (timestamp) [NULLABLE]: Timestamp when the order record was created
+[Lineage]
+Downstream (used by): monthly_revenue, customer_lifetime_value
+---TABLE_END---
+
+---TABLE_START: order_items---
+Table: order_items
+Description: Line items within each order. Each row represents a single product in an order with its quantity and unit price at time of purchase. Links to orders via order_id FK and products via product_id FK.
+Columns:
+  - id (integer) [PRIMARY KEY]: Unique line item identifier (auto-increment PK)
+  - order_id (integer) [NULLABLE]: FK to orders.id - which order this item belongs to [Examples: 1, 2, 5]
+  - product_id (integer) [NULLABLE]: FK to products.id - which product was purchased [Examples: 1, 3, 22]
+  - quantity (integer): Number of units purchased for this line item [Examples: 1, 2, 3]
+  - unit_price (numeric(10,2)): Price per unit at time of purchase [Examples: 149.99, 34.99, 199.99]
+[Lineage]
+Downstream (used by): product_sales_ranking, category_sales_summary
+---TABLE_END---
+
+---TABLE_START: product_reviews---
+Table: product_reviews
+Description: Customer reviews and ratings for purchased products. Each row is a 1-5 star review with optional text, linking customers to products they have reviewed.
+Columns:
+  - id (integer) [PRIMARY KEY]: Unique review identifier (auto-increment PK)
+  - customer_id (integer) [NULLABLE]: FK to customers.id - reviewer [Examples: 1, 5, 11]
+  - product_id (integer) [NULLABLE]: FK to products.id - reviewed product [Examples: 1, 3, 22]
+  - rating (integer): Star rating from 1 (worst) to 5 (best) [Examples: 3, 4, 5]
+  - review_text (text) [NULLABLE]: Free-text review content written by the customer
+  - created_at (timestamp) [NULLABLE]: Timestamp when the review was submitted
+[Lineage]
+Downstream (used by): product_sales_ranking
+---TABLE_END---
+
+---TABLE_START: shipping---
+Table: shipping
+Description: Shipping and delivery tracking per order. Records carrier (FedEx, DHL, UPS), tracking number, and timestamps for shipment and delivery. Status: preparing, shipped, delivered.
+Columns:
+  - id (integer) [PRIMARY KEY]: Unique shipping record identifier (auto-increment PK)
+  - order_id (integer) [NULLABLE]: FK to orders.id - the order being shipped [Examples: 1, 5, 10]
+  - carrier (varchar(60)): Shipping carrier company name [Examples: FedEx, DHL, UPS]
+  - tracking_number (varchar(100)) [NULLABLE]: Carrier tracking number for shipment lookup [Examples: FX100200300, DHL200300400]
+  - shipped_at (timestamp) [NULLABLE]: Timestamp when the package was handed to carrier
+  - delivered_at (timestamp) [NULLABLE]: Timestamp when the package was delivered to customer
+  - status (varchar(30)) [NULLABLE]: Shipping status [Examples: preparing, shipped, delivered]
+---TABLE_END---
+
+---TABLE_START: monthly_revenue---
+Table: monthly_revenue
+Description: [TYPE=FACT_AGG] Monthly aggregated revenue metrics. Summarizes total orders, revenue, average order value, and unique customer count per month. Derived from: orders.
+Columns:
+  - month (date): First day of the aggregated month [Examples: 2025-01-01, 2025-06-01, 2025-12-01]
+  - total_orders (bigint): Number of orders placed in this month [Examples: 5, 8, 12]
+  - revenue (numeric): Sum of all order total_amount for the month (USD) [Examples: 1249.93, 2850.00, 4320.50]
+  - avg_order_value (numeric): Average order value for the month (USD) [Examples: 249.99, 356.25, 360.04]
+  - unique_customers (bigint): Count of distinct customers who ordered this month [Examples: 4, 7, 10]
+[Lineage]
+Upstream (source tables): inquery_sample.public.orders
+Source Query:
+SELECT DATE_TRUNC('month', order_date)::DATE AS month, COUNT(*) AS total_orders, SUM(total_amount) AS revenue, AVG(total_amount) AS avg_order_value, COUNT(DISTINCT customer_id) AS unique_customers FROM orders GROUP BY DATE_TRUNC('month', order_date) ORDER BY month
+---TABLE_END---
+
+---TABLE_START: customer_lifetime_value---
+Table: customer_lifetime_value
+Description: [TYPE=FACT_AGG] Customer lifetime value (CLV) analysis. Aggregates each customer total orders, lifetime spend, average order value, and tenure. Derived from: customers + orders.
+Columns:
+  - customer_id (integer): FK to customers.id [Examples: 1, 5, 11]
+  - name (varchar(100)): Customer full name (denormalized from customers) [Examples: Emma Johnson, Olivia Davis]
+  - segment (varchar(30)): Customer tier (denormalized from customers) [Examples: Regular, Premium, VIP]
+  - country (varchar(60)): Customer country (denormalized from customers) [Examples: USA, UK, Germany]
+  - total_orders (bigint): Total number of orders placed by this customer [Examples: 3, 5, 8]
+  - lifetime_value (numeric): Total spend across all orders (USD) [Examples: 684.95, 1249.93, 2150.00]
+  - avg_order_value (numeric): Average order value for this customer (USD) [Examples: 228.32, 249.99, 268.75]
+  - first_order_date (date): Date of the customer first order
+  - last_order_date (date): Date of the customer most recent order
+  - customer_tenure_days (integer): Days between first and last order [Examples: 120, 250, 335]
+[Lineage]
+Upstream (source tables): inquery_sample.public.customers, inquery_sample.public.orders
+Source Query:
+SELECT c.id AS customer_id, c.name, c.segment, c.country, COUNT(o.id) AS total_orders, COALESCE(SUM(o.total_amount), 0) AS lifetime_value, COALESCE(AVG(o.total_amount), 0) AS avg_order_value, MIN(o.order_date) AS first_order_date, MAX(o.order_date) AS last_order_date, MAX(o.order_date) - MIN(o.order_date) AS customer_tenure_days FROM customers c LEFT JOIN orders o ON c.id = o.customer_id GROUP BY c.id, c.name, c.segment, c.country
+---TABLE_END---
+
+---TABLE_START: product_sales_ranking---
+Table: product_sales_ranking
+Description: [TYPE=FACT_AGG] Product performance ranking by total revenue. Includes units sold, order count, average rating, and review count. Derived from: products + order_items + product_reviews.
+Columns:
+  - product_id (integer): FK to products.id [Examples: 1, 3, 22]
+  - product_name (varchar(150)): Product display name (denormalized from products) [Examples: Wireless Headphones Pro, Smart Watch Series 5]
+  - category (varchar(60)): Product category (denormalized from products) [Examples: Electronics, Clothing, Sports]
+  - current_price (numeric(10,2)): Current catalog price [Examples: 149.99, 299.99]
+  - times_ordered (bigint): Number of distinct orders containing this product [Examples: 8, 12, 15]
+  - total_units_sold (bigint): Total quantity sold across all orders [Examples: 10, 15, 22]
+  - total_revenue (numeric): Total revenue generated by this product (USD) [Examples: 1499.90, 4499.85]
+  - avg_rating (numeric): Average customer review rating (1-5 scale) [Examples: 4.2, 4.8, 3.5]
+  - review_count (bigint): Total number of reviews received [Examples: 3, 7, 12]
+[Lineage]
+Upstream (source tables): inquery_sample.public.products, inquery_sample.public.order_items, inquery_sample.public.product_reviews
+Source Query:
+SELECT p.id AS product_id, p.name AS product_name, p.category, p.price AS current_price, COUNT(DISTINCT oi.order_id) AS times_ordered, SUM(oi.quantity) AS total_units_sold, SUM(oi.quantity * oi.unit_price) AS total_revenue, AVG(pr.rating) AS avg_rating, COUNT(pr.id) AS review_count FROM products p LEFT JOIN order_items oi ON p.id = oi.product_id LEFT JOIN product_reviews pr ON p.id = pr.product_id GROUP BY p.id, p.name, p.category, p.price ORDER BY total_revenue DESC NULLS LAST
+---TABLE_END---
+
+---TABLE_START: category_sales_summary---
+Table: category_sales_summary
+Description: [TYPE=FACT_AGG] Category-level sales aggregation. Summarizes product count, total units sold, revenue, average unit price, and order count per category. Derived from: products + order_items.
+Columns:
+  - category (varchar(60)): Product category name [Examples: Electronics, Clothing, Sports, Home, Accessories]
+  - product_count (bigint): Number of distinct products in this category [Examples: 8, 3, 4]
+  - total_units_sold (bigint): Total quantity of items sold in this category [Examples: 45, 12, 8]
+  - total_revenue (numeric): Total revenue generated by this category (USD) [Examples: 8500.50, 1200.00, 3400.00]
+  - avg_unit_price (numeric): Average unit price across all sold items [Examples: 188.88, 78.32, 118.99]
+  - total_orders (bigint): Number of distinct orders containing products from this category [Examples: 30, 10, 8]
+[Lineage]
+Upstream (source tables): inquery_sample.public.products, inquery_sample.public.order_items
+Source Query:
+SELECT p.category, COUNT(DISTINCT p.id) AS product_count, SUM(oi.quantity) AS total_units_sold, SUM(oi.quantity * oi.unit_price) AS total_revenue, AVG(oi.unit_price) AS avg_unit_price, COUNT(DISTINCT oi.order_id) AS total_orders FROM products p LEFT JOIN order_items oi ON p.id = oi.product_id GROUP BY p.category ORDER BY total_revenue DESC NULLS LAST
+---TABLE_END---

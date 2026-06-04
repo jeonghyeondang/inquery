@@ -1,0 +1,92 @@
+spring:
+  # Default development environment
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  index:
+    ignore: true
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    fallbackToSystemLocale: true
+  jmx:
+    enabled: false
+  # thymeleaf
+  thymeleaf:
+    prefix: classpath:/thymeleaf/
+    check-template-location: true
+    suffix: .html
+    servlet:
+      content-type: text/html
+    mode: HTML
+  # static files
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations[0]: classpath:/static/
+  #  Used for database table structure version management
+  flyway:
+    enabled: false
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+
+inquery:
+  version: 1.0.0
+  # JWT Configuration
+  jwt:
+    # Secret key for signing JWT tokens (must be set via environment)
+    secret: ${JWT_SECRET:}
+    # Token expiration in seconds (default: 30 days)
+    expiration: ${JWT_EXPIRATION:2592000}
+    # Token issuer
+    issuer: inquery
+  # CORS Configuration
+  # In production, set CORS_ALLOWED_ORIGINS to your actual domain (e.g., "https://inquery.ai,https://www.inquery.ai")
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:4173,http://localhost:3000}
+
+# MyBatis-Plus configuration
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: ai.inquery.server.domain.repository.entity
+
+# flywaydb outputs the log of executing sql
+logging:
+  level:
+    org:
+      flywaydb: debug
+    ai:
+      inquery:
+        server:
+          domain:
+            repository:
+              mapper: info  # Changed from debug to avoid logging full SQL parameters
+
+chatgpt:
+  apiKey: ${CHATGPT_API_KEY:}
+  apiHost: https://api.openai.com/
+  # You can choose GPT3 or GPT35
+  version: GPT35
+  context:
+    length: 1
+  prompt:
+    maxTokensEstimate: 30000
+
+# Print the HTTP log
+logbook:
+  include:
+    - /api/**
+
+# Http Client
+forest:
+  connect-timeout: 30000
+  log-response-content: ${FOREST_LOG_RESPONSE_CONTENT:false}
+  read-timeout: 30000
+  timeout: 30000

@@ -1,0 +1,33 @@
+#!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Resolve resources directory (macOS .app bundle uses Resources/, dev uses resources/)
+if [ -d "$SCRIPT_DIR/../Resources/resources" ]; then
+    RESOURCES_DIR="$(cd "$SCRIPT_DIR/../Resources/resources" && pwd)"
+elif [ -d "$SCRIPT_DIR/../resources" ]; then
+    RESOURCES_DIR="$(cd "$SCRIPT_DIR/../resources" && pwd)"
+else
+    RESOURCES_DIR="$(dirname "$SCRIPT_DIR")/Resources/resources"
+fi
+
+JAVA_HOME="$RESOURCES_DIR/jre"
+JAR_PATH="$RESOURCES_DIR/inquery-server.jar"
+PGVECTOR_DIR="$RESOURCES_DIR/pgvector"
+
+export JAVA_HOME
+export PATH="$JAVA_HOME/bin:$PATH"
+
+PGVECTOR_OPT=""
+if [ -d "$PGVECTOR_DIR" ]; then
+    PGVECTOR_OPT="-Dinquery.desktop.pgvector.dir=$PGVECTOR_DIR"
+fi
+
+exec "$JAVA_HOME/bin/java" \
+    --add-opens=java.base/java.nio=ALL-UNNAMED \
+    --add-opens=java.base/sun.nio.ch=ALL-UNNAMED \
+    --add-opens=java.base/java.lang=ALL-UNNAMED \
+    -Xmx512m \
+    -Dspring.profiles.active=desktop \
+    -Dserver.port=10821 \
+    $PGVECTOR_OPT \
+    -jar "$JAR_PATH"

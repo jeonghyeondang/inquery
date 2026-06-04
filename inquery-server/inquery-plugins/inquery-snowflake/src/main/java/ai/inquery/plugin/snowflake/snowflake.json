@@ -1,0 +1,51 @@
+{
+  "dbType": "SNOWFLAKE",
+  "supportDatabase": true,
+  "supportSchema": true,
+  "driverConfigList": [
+    {
+      "url": "jdbc:snowflake://<account>.snowflakecomputing.com",
+      "custom": false,
+      "defaultDriver": true,
+      "downloadJdbcDriverUrls": [
+        "https://repo1.maven.org/maven2/net/snowflake/snowflake-jdbc/3.27.0/snowflake-jdbc-3.27.0.jar"
+      ],
+      "jdbcDriver": "snowflake-jdbc-3.27.0.jar",
+      "jdbcDriverClass": "net.snowflake.client.jdbc.SnowflakeDriver",
+      "extendInfo": [
+        {
+          "key": "authenticationType",
+          "alias": "Authentication Type",
+          "required": false,
+          "type": "select",
+          "options": [
+            {
+              "label": "Username/Password",
+              "value": "password"
+            },
+            {
+              "label": "Key-Pair",
+              "value": "keypair"
+            }
+          ],
+          "defaultValue": "password"
+        },
+        {
+          "key": "privateKeyFile",
+          "alias": "Private Key File Path",
+          "required": false,
+          "type": "text",
+          "description": "Path to your private key file (for Key-Pair authentication)"
+        },
+        {
+          "key": "privateKeyContent",
+          "alias": "Private Key Content",
+          "required": false,
+          "type": "textarea",
+          "description": "Paste your unencrypted private key content here (for Key-Pair authentication). Encrypted keys are not yet supported."
+        }
+      ]
+    }
+  ],
+  "name": "Snowflake"
+}

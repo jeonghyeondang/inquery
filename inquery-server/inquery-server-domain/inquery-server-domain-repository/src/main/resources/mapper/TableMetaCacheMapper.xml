@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ai.inquery.server.domain.repository.mapper.TableMetaCacheMapper">
+
+    <select id="findBySchemaCacheId" resultType="ai.inquery.server.domain.repository.entity.TableMetaCacheDO">
+        SELECT id, gmt_create, gmt_modified, schema_cache_id, table_name, table_type, comment
+        FROM table_meta_cache
+        WHERE schema_cache_id = #{schemaCacheId}
+        ORDER BY table_name
+    </select>
+
+    <delete id="deleteBySchemaCacheId">
+        DELETE FROM table_meta_cache
+        WHERE schema_cache_id = #{schemaCacheId}
+    </delete>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO table_meta_cache (gmt_create, gmt_modified, schema_cache_id, table_name, table_type, comment)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{item.schemaCacheId}, #{item.tableName}, #{item.tableType}, #{item.comment})
+        </foreach>
+    </insert>
+
+    <select id="searchByTableName" resultType="ai.inquery.server.domain.repository.entity.TableSearchResultDO">
+        SELECT
+            t.id,
+            s.data_source_id AS dataSourceId,
+            s.database_name AS databaseName,
+            s.schema_name AS schemaName,
+            t.table_name AS tableName,
+            t.table_type AS tableType,
+            t.comment
+        FROM table_meta_cache t
+        INNER JOIN schema_meta_cache s ON t.schema_cache_id = s.id
+        WHERE s.data_source_id = #{dataSourceId}
+          AND s.user_id = #{userId}
+          AND UPPER(t.table_name) = UPPER(#{tableName})
+        ORDER BY s.database_name, s.schema_name
+        LIMIT 10
+    </select>
+
+    <select id="findAllByDataSourceId" resultType="ai.inquery.server.domain.repository.entity.TableSearchResultDO">
+        SELECT
+            t.id,
+            s.data_source_id AS dataSourceId,
+            s.database_name AS databaseName,
+            s.schema_name AS schemaName,
+            t.table_name AS tableName,
+            t.table_type AS tableType,
+            t.comment
+        FROM table_meta_cache t
+        INNER JOIN schema_meta_cache s ON t.schema_cache_id = s.id
+        WHERE s.data_source_id = #{dataSourceId}
+          AND s.user_id = #{userId}
+        ORDER BY s.database_name, s.schema_name, t.table_name
+    </select>
+
+    <select id="findByDataSourceAndSchema" resultType="ai.inquery.server.domain.repository.entity.TableSearchResultDO">
+        SELECT
+            t.id,
+            s.data_source_id AS dataSourceId,
+            s.database_name AS databaseName,
+            s.schema_name AS schemaName,
+            t.table_name AS tableName,
+            t.table_type AS tableType,
+            t.comment
+        FROM table_meta_cache t
+        INNER JOIN schema_meta_cache s ON t.schema_cache_id = s.id
+        WHERE s.data_source_id = #{dataSourceId}
+          AND s.database_name = #{databaseName}
+          AND s.user_id = #{userId}
+          <choose>
+              <when test="schemaName != null">
+                  AND s.schema_name = #{schemaName}
+              </when>
+              <otherwise>
+                  AND s.schema_name IS NULL
+              </otherwise>
+          </choose>
+        ORDER BY t.table_name
+    </select>
+
+</mapper>
+
+
+

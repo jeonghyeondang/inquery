@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ai.inquery.server.domain.repository.mapper.SchemaMetaCacheMapper">
+
+    <select id="findByKey" resultType="ai.inquery.server.domain.repository.entity.SchemaMetaCacheDO">
+        SELECT id, gmt_create, gmt_modified, data_source_id, database_name, schema_name, user_id
+        FROM schema_meta_cache
+        WHERE data_source_id = #{dataSourceId}
+          AND database_name = #{databaseName}
+          AND user_id = #{userId}
+          <choose>
+              <when test="schemaName != null">
+                  AND schema_name = #{schemaName}
+              </when>
+              <otherwise>
+                  AND schema_name IS NULL
+              </otherwise>
+          </choose>
+    </select>
+
+    <delete id="deleteByDataSourceId">
+        DELETE FROM schema_meta_cache
+        WHERE data_source_id = #{dataSourceId}
+          AND user_id = #{userId}
+    </delete>
+
+    <select id="findAllByDataSourceId" resultType="ai.inquery.server.domain.repository.entity.SchemaMetaCacheDO">
+        SELECT id, gmt_create, gmt_modified, data_source_id, database_name, schema_name, user_id
+        FROM schema_meta_cache
+        WHERE data_source_id = #{dataSourceId}
+          AND user_id = #{userId}
+    </select>
+
+    <select id="findDistinctDatabases" resultType="java.lang.String">
+        SELECT DISTINCT database_name
+        FROM schema_meta_cache
+        WHERE data_source_id = #{dataSourceId}
+          AND user_id = #{userId}
+          AND database_name IS NOT NULL
+        ORDER BY database_name
+    </select>
+
+    <select id="findDistinctSchemas" resultType="java.lang.String">
+        SELECT DISTINCT schema_name
+        FROM schema_meta_cache
+        WHERE data_source_id = #{dataSourceId}
+          AND database_name = #{databaseName}
+          AND user_id = #{userId}
+          AND schema_name IS NOT NULL
+        ORDER BY schema_name
+    </select>
+
+</mapper>
+
+
+

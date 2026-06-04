@@ -1,0 +1,22 @@
+export default {
+	'connection.title': '연결',
+	'connection.title.connections': '연결 관리',
+	'connection.title.createConnection': '새 연결',
+	'connection.title.editConnection': '연결 편집',
+	'connection.label.name': '이름',
+	'connection.label.host': '호스트',
+	'connection.label.database': '데이터베이스',
+	'connection.label.port': '포트',
+	'connection.button.testConnection': '테스트',
+	'connection.button.addConnection': '연결 추가',
+	'connection.button.connect': '연결',
+	'connection.button.remove': '제거',
+	'connection.button.createConnection': '연결 생성',
+	'connection.tips.noConnection': '아직 연결이 없습니다',
+	'connection.tips.noConnectionTips': '새 데이터베이스 연결을 생성하여 시작하세요',
+	'connection.message.testConnectResult': '연결 테스트 {1}',
+	'connection.label.advancedConfiguration': '고급 설정',
+	'connection.label.sshConfiguration': 'SSH 설정',
+	'connection.label.authentication': '인증',
+	'connection.text.description': '데이터베이스 연결을 관리합니다'
+};

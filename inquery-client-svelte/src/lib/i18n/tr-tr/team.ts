@@ -1,0 +1,27 @@
+export default {
+  "team.title": "Ekip",
+  "team.tab.datasource": "Veri Kaynağı Yönetimi",
+  "team.tab.user": "Kullanıcı Yönetimi",
+  "team.tab.team": "Ekip Yönetimi",
+  "team.action.addDatasource": "Veri Kaynağı Ekle",
+  "team.action.addUser": "Kullanıcı Ekle",
+  "team.action.addTeam": "Ekip Ekle",
+  "team.datasource.alias": "Veri Kaynağı Adı",
+  "team.datasource.url": "Veri Kaynağı URL",
+  "team.user.userName": "Kullanıcı Adı",
+  "team.user.nickName": "Takma Ad",
+  "team.user.addForm.roleCode": "Rol",
+  "team.user.addForm.status": "Durum",
+  "team.team.addForm.code": "Ekip Kodu",
+  "team.team.addForm.name": "Ekip Adı",
+  "team.team.addForm.description": "Açıklama",
+  "team.text.description":
+    "Ekipleri, kullanıcıları ve veri kaynağı izinlerini yönetin",
+  "team.text.status": "Durum",
+  "team.datasource.type": "Tür",
+  "team.pagination.total": "Toplam {1} öğe",
+  "team.delete.confirm.message":
+    "Bu işlem geri alınamaz. {1} öğesini silmek istediğinizden emin misiniz?",
+  "team.validation.required": "{1} gereklidir",
+  "team.validation.invalidEmail": "Geçersiz e-posta biçimi",
+};

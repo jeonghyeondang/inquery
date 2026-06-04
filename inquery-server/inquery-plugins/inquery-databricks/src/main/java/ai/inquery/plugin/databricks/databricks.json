@@ -1,0 +1,44 @@
+{
+  "dbType": "DATABRICKS",
+  "supportDatabase": true,
+  "supportSchema": true,
+  "driverConfigList": [
+    {
+      "url": "jdbc:databricks://",
+      "custom": false,
+      "defaultDriver": true,
+      "jdbcDriverClass": "com.databricks.client.jdbc.Driver",
+      "extendInfo": [
+        {
+          "key": "httpPath",
+          "alias": "HTTP Path",
+          "required": true,
+          "type": "text",
+          "description": "SQL Warehouse or Cluster HTTP path (e.g., /sql/1.0/warehouses/xxxxx)"
+        },
+        {
+          "key": "accessToken",
+          "alias": "Personal Access Token",
+          "required": true,
+          "type": "password",
+          "description": "Databricks Personal Access Token for authentication"
+        },
+        {
+          "key": "catalog",
+          "alias": "Catalog",
+          "required": false,
+          "type": "text",
+          "description": "Unity Catalog name (optional, defaults to 'hive_metastore')"
+        },
+        {
+          "key": "schema",
+          "alias": "Schema",
+          "required": false,
+          "type": "text",
+          "description": "Default schema (optional)"
+        }
+      ]
+    }
+  ],
+  "name": "Databricks"
+}

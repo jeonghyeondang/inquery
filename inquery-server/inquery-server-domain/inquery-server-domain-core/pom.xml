@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>ai.inquery</groupId>
+        <artifactId>inquery-server-domain</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>inquery-server-domain-core</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-domain-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-domain-repository</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-tools-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-mysql</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-clickhouse</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-db2</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+
+        
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-hive</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-mariadb</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-mongodb</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        
+
+
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-oracle</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-postgresql</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-presto</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-sqlite</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-sqlserver</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-snowflake</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-bigquery</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-databricks</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <!-- Google Gemini AI SDK (Official) -->
+        <dependency>
+            <groupId>com.google.genai</groupId>
+            <artifactId>google-genai</artifactId>
+            <version>1.24.0</version>
+        </dependency>
+
+        <!-- LangChain4j Core -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+        </dependency>
+
+        <!-- LangChain4j OpenAI Integration -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai</artifactId>
+        </dependency>
+
+        <!-- LangChain4j Anthropic (Claude) Integration -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-anthropic</artifactId>
+        </dependency>
+
+        <!-- LangChain4j Google AI (Gemini) Integration -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-google-ai-gemini</artifactId>
+        </dependency>
+
+        <!-- LangChain4j Azure OpenAI Integration -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-azure-open-ai</artifactId>
+        </dependency>
+
+        <!-- LangChain4j Pinecone Integration -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-pinecone</artifactId>
+        </dependency>
+
+        <!-- LangChain4j Core (for ChatLanguageModel, StreamingChatLanguageModel) -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-core</artifactId>
+        </dependency>
+
+        <!-- LangChain4j Agentic (for Agent, @Agent annotation) -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-agentic</artifactId>
+        </dependency>
+
+        <!-- LangChain4j MCP Client (for connecting to external MCP servers) -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-mcp</artifactId>
+        </dependency>
+        <!-- Playwright for Server-side PDF generation -->
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+        </dependency>
+
+        <!-- Netty macOS DNS resolver to avoid UnsatisfiedLinkError on macOS -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver-dns-native-macos</artifactId>
+            <classifier>osx-aarch_64</classifier>
+        </dependency>
+
+        <!-- PDFBox: text extraction for AI chat attachments. Version is
+             pinned at the parent POM (currently 2.0.31). Pulls in
+             fontbox as a transitive dependency via the main pdfbox jar. -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+        </dependency>
+
+        <!-- Apache POI: text extraction from Microsoft Office formats
+             (PPTX / DOCX / XLSX) so they can ride to the LLM as inline
+             text content.
+
+             Keep this aligned with easyexcel / poi-tl in the web layer,
+             which currently bring POI 4.1.2. Mixing POI 4.x and 5.x in
+             the Spring Boot fat jar causes runtime linkage errors when
+             parsing PPTX files. -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>META-INF/spring.components</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

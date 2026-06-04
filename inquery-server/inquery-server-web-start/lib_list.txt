@@ -1,0 +1,3 @@
+ai
+inquery-server-admin-api-2.0.0-SNAPSHOT.jar
+META-INF

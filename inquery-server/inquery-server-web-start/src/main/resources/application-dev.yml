@@ -1,0 +1,30 @@
+# PostgreSQL configuration for development
+# Embedded PostgreSQL auto-starts on port 15432 (no separate PG installation needed)
+# To use an external PostgreSQL instead, set EMBEDDED_PG=false
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15432/inquery_desktop
+    driver-class-name: org.postgresql.Driver
+    username: inquery
+    password: inquery
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+# The port number
+server:
+  port: 10821
+  max-http-request-header-size: 48KB
+
+inquery:
+  jwt:
+    secret: ${JWT_SECRET:dev-inquery-jwt-secret-change-me}
+  gateway:
+    base-url:
+    model-base-url:
+  desktop:
+    embedded-postgres:
+      enabled: ${EMBEDDED_PG:true}
+      port: 15432
+      database: inquery_desktop

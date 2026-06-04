@@ -1,0 +1,18 @@
+package ai.inquery.server.domain.repository.mapper;
+
+import ai.inquery.server.domain.repository.entity.TaskDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Param;
+
+/**
+ * <p>
+ * TASK TABLE Mapper interface
+ * </p>
+ *
+ * @since 2024-01-25
+ */
+public interface TaskMapper extends BaseMapper<TaskDO> {
+
+    IPage<TaskDO> pageQuery(IPage<TaskDO> page, @Param("userId") Long userId,@Param("deleted") String deleted);
+}

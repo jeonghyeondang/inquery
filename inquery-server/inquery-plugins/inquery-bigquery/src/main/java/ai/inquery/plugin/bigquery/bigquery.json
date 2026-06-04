@@ -1,0 +1,35 @@
+{
+  "dbType": "BIGQUERY",
+  "supportDatabase": true,
+  "supportSchema": true,
+  "driverConfigList": [
+    {
+      "url": "jdbc:bigquery://https://www.googleapis.com/bigquery/v2:443",
+      "custom": false,
+      "defaultDriver": true,
+      "downloadJdbcDriverUrls": [
+        "https://storage.googleapis.com/simba-bq-release/jdbc/SimbaJDBCDriverforGoogleBigQuery42_1.6.5.1001.zip"
+      ],
+      "jdbcDriver": "GoogleBigQueryJDBC42.jar,animal-sniffer-annotations-1.24.jar,annotations-4.1.1.4.jar,api-common-2.50.0.jar,auto-value-1.11.0.jar,auto-value-annotations-1.11.0.jar,avro-1.11.4.jar,commons-codec-1.18.0.jar,commons-compress-1.27.1.jar,conscrypt-openjdk-uber-2.5.2.jar,error_prone_annotations-2.38.0.jar,failureaccess-1.0.2.jar,gax-2.67.0.jar,gax-grpc-2.67.0.jar,gax-httpjson-2.63.1.jar,google-api-client-2.7.2.jar,google-api-services-bigquery-v2-rev20240919-2.0.0.jar,google-auth-library-credentials-1.36.0.jar,google-auth-library-oauth2-http-1.38.0.jar,google-cloud-bigquerystorage-3.15.0.jar,google-cloud-core-2.57.0.jar,google-http-client-1.47.0.jar,google-http-client-apache-v2-1.45.2.jar,google-http-client-gson-1.47.0.jar,google-oauth-client-1.36.0.jar,grpc-alts-1.71.0.jar,grpc-api-1.71.0.jar,grpc-auth-1.71.0.jar,grpc-context-1.71.0.jar,grpc-core-1.71.0.jar,grpc-google-cloud-bigquerystorage-v1-3.15.0.jar,grpc-google-cloud-bigquerystorage-v1beta1-0.187.0.jar,grpc-google-cloud-bigquerystorage-v1beta2-0.187.0.jar,grpc-googleapis-1.71.0.jar,grpc-grpclb-1.71.0.jar,grpc-inprocess-1.71.0.jar,grpc-netty-shaded-1.71.0.jar,grpc-protobuf-1.71.0.jar,grpc-protobuf-lite-1.71.0.jar,grpc-stub-1.71.0.jar,grpc-util-1.71.0.jar,gson-2.12.1.jar,guava-33.4.0-jre.jar,httpclient-4.5.14.jar,httpcore-4.4.16.jar,j2objc-annotations-3.0.0.jar,jackson-annotations-2.14.3.jar,jackson-core-2.17.2.jar,jackson-databind-2.14.3.jar,javax.annotation-api-1.3.2.jar,joda-time-2.14.0.jar,json-20250107.jar,jsr305-3.0.2.jar,listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar,opencensus-api-0.31.1.jar,opencensus-contrib-http-util-0.31.1.jar,perfmark-api-0.27.0.jar,proto-google-cloud-bigquerystorage-v1-3.15.0.jar,proto-google-cloud-bigquerystorage-v1alpha-3.15.0.jar,proto-google-cloud-bigquerystorage-v1beta-3.15.0.jar,proto-google-cloud-bigquerystorage-v1beta1-0.187.0.jar,proto-google-cloud-bigquerystorage-v1beta2-0.187.0.jar,proto-google-common-protos-2.58.0.jar,proto-google-iam-v1-1.53.0.jar,protobuf-java-3.25.8.jar,protobuf-java-util-3.25.8.jar,slf4j-api-1.7.36.jar,threetenbp-1.7.0.jar",
+      "jdbcDriverClass": "com.simba.googlebigquery.jdbc42.Driver",
+      "extendInfo": [
+        {
+          "key": "serviceAccountJson",
+          "alias": "Service Account JSON",
+          "required": true,
+          "type": "textarea",
+          "description": "Paste your service account JSON key content here"
+        },
+        {
+          "key": "defaultDataset",
+          "alias": "Default Dataset",
+          "required": false,
+          "type": "text",
+          "description": "Default dataset to use (optional)"
+        }
+      ]
+    }
+  ],
+  "name": "BigQuery"
+}
+

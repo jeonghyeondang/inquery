@@ -1,0 +1,13 @@
+#spring:
+#  datasource:
+#    # Configure the relative path of the built-in database
+#    url: jdbc:h2:~/.inquery/db/inquery;MODE=MYSQL;FILE_LOCK=NO
+#    driver-class-name: org.h2.Driver
+# The port number
+server:
+  port: 10824
+
+inquery:
+  gateway:
+    base-url:
+    model-base-url:

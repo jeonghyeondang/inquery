@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ai.inquery.server.domain.repository.mapper.ColumnMetaCacheMapper">
+
+    <select id="findByTableCacheId" resultType="ai.inquery.server.domain.repository.entity.ColumnMetaCacheDO">
+        SELECT id, gmt_create, gmt_modified, table_cache_id, column_name, data_type, 
+               is_primary_key, is_nullable, comment, ordinal_position
+        FROM column_meta_cache
+        WHERE table_cache_id = #{tableCacheId}
+        ORDER BY ordinal_position
+    </select>
+
+    <select id="findBySchemaCacheId" resultType="ai.inquery.server.domain.repository.entity.ColumnMetaCacheDO">
+        SELECT c.id, c.gmt_create, c.gmt_modified, c.table_cache_id, c.column_name, c.data_type,
+               c.is_primary_key, c.is_nullable, c.comment, c.ordinal_position
+        FROM column_meta_cache c
+        INNER JOIN table_meta_cache t ON c.table_cache_id = t.id
+        WHERE t.schema_cache_id = #{schemaCacheId}
+        ORDER BY c.table_cache_id, c.ordinal_position
+    </select>
+
+    <delete id="deleteByTableCacheId">
+        DELETE FROM column_meta_cache
+        WHERE table_cache_id = #{tableCacheId}
+    </delete>
+
+    <delete id="deleteBySchemaCacheId">
+        DELETE FROM column_meta_cache
+        WHERE table_cache_id IN (
+            SELECT id FROM table_meta_cache WHERE schema_cache_id = #{schemaCacheId}
+        )
+    </delete>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO column_meta_cache (gmt_create, gmt_modified, table_cache_id, column_name, data_type, 
+                                       is_primary_key, is_nullable, comment, ordinal_position)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{item.tableCacheId}, #{item.columnName}, #{item.dataType},
+             #{item.isPrimaryKey}, #{item.isNullable}, #{item.comment}, #{item.ordinalPosition})
+        </foreach>
+    </insert>
+
+</mapper>
+
+
+

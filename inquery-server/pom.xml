@@ -1,0 +1,455 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <!-- Introduce spring startup project -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ai.inquery</groupId>
+    <artifactId>inquery-server-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+    <name>inquery-server-parent</name>
+
+    <url>https://github.com/jeonghyeondang/inquery</url>
+    <scm>
+        <url>https://github.com/jeonghyeondang/inquery</url>
+        <connection>scm:git:git://github.com/jeonghyeondang/inquery.git</connection>
+        <developerConnection>scm:git:ssh://github.com/jeonghyeondang/inquery.git</developerConnection>
+    </scm>
+
+    <properties>
+        <!-- The version of the current project uses flatten and only needs to modify this one place -->
+        <revision>2.0.0-SNAPSHOT</revision>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- keep tests enabled by default -->
+        <maven.test.skip>false</maven.test.skip>
+        <!-- Override commons-lang3 for embedded-postgres + commons-compress compatibility -->
+        <commons-lang3.version>3.17.0</commons-lang3.version>
+    </properties>
+
+    <modules>
+        <module>inquery-server-domain</module>
+        <module>inquery-server-tools</module>
+        <module>inquery-server-web</module>
+        <module>inquery-spi</module>
+        <module>inquery-plugins</module>
+        <module>inquery-server-web-start</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- gRPC BOM — align all gRPC modules across Pinecone, BigQuery, etc. -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-bom</artifactId>
+                <version>1.75.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Comes with package -->
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-tools-base</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-tools-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-web-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-admin-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-common-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-domain-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-domain-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-server-domain-repository</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>ai.inquery</groupId>-->
+            <!--                <artifactId>inquery-server-domain-support</artifactId>-->
+            <!--                <version>${revision}</version>-->
+            <!--            </dependency>-->
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-spi</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ai.inquery</groupId>
+                <artifactId>inquery-plugins</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>32.0.1-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.8.20</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>2.0.37</version>
+            </dependency>
+
+            <!-- mapstruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>1.5.5.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>1.5.5.Final</version>
+            </dependency>
+            <!-- Make sure to generate lombok first and then mapstruct -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+                <version>0.2.0</version>
+            </dependency>
+
+            <!-- Comes with database -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>2.1.214</version>
+            </dependency>
+
+            <!-- PostgreSQL database -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.7.4</version>
+            </dependency>
+
+            <!-- Embedded PostgreSQL for desktop mode -->
+            <dependency>
+                <groupId>io.zonky.test</groupId>
+                <artifactId>embedded-postgres</artifactId>
+                <version>2.2.0</version>
+            </dependency>
+
+            <!-- PostgreSQL 18 binaries for embedded-postgres (overrides default PG 14) -->
+            <dependency>
+                <groupId>io.zonky.test.postgres</groupId>
+                <artifactId>embedded-postgres-binaries-bom</artifactId>
+                <version>18.1.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Native Apple Silicon (arm64) PostgreSQL binaries -->
+            <dependency>
+                <groupId>io.zonky.test.postgres</groupId>
+                <artifactId>embedded-postgres-binaries-darwin-arm64v8</artifactId>
+                <version>18.1.0</version>
+            </dependency>
+
+            <!-- mybatis-plus with Spring Boot 3 auto-configuration -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>3.5.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>3.5.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>5.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>3.5.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.32</version>
+            </dependency>
+
+            <!-- druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.2.18</version>
+            </dependency>
+
+            <!-- http -->
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring</artifactId>
+                <version>1.5.32</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-core</artifactId>
+                <version>1.5.32</version>
+            </dependency>
+
+            <!-- Database version management (Flyway 9.16.3 - Spring Boot 3.1.0 default version) -->
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>9.16.3</version>
+            </dependency>
+            <!-- PostgreSQL support is included in flyway-core for 9.x -->
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-mysql</artifactId>
+                <version>9.16.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.unfbx</groupId>
+                <artifactId>chatgpt-java</artifactId>
+                <version>1.0.8</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.theokanning.openai-gpt3-java</groupId>
+                <artifactId>service</artifactId>
+                <version>0.12.0</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.zalando/logbook-spring-boot-starter -->
+            <dependency>
+                <groupId>org.zalando</groupId>
+                <artifactId>logbook-spring-boot-starter</artifactId>
+                <version>3.3.0</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-indexer -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-indexer</artifactId>
+                <version>6.0.10</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>3.10.8</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.18.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+
+            <!--poi-tl-->
+            <dependency>
+                <groupId>com.deepoove</groupId>
+                <artifactId>poi-tl</artifactId>
+                <version>1.10.5</version>
+            </dependency>
+
+            <!--    pdf analysis    -->
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>2.0.31</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>4.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.vertical-blank</groupId>
+                <artifactId>sql-formatter</artifactId>
+                <version>2.0.4</version>
+            </dependency>
+
+            <!-- LangChain4j BOM for unified version management -->
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-bom</artifactId>
+                <version>1.9.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Slack SDK for Socket Mode integration -->
+            <dependency>
+                <groupId>com.slack.api</groupId>
+                <artifactId>bolt-socket-mode</artifactId>
+                <version>1.44.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.slack.api</groupId>
+                <artifactId>slack-api-client</artifactId>
+                <version>1.44.2</version>
+            </dependency>
+            <!-- WebSocket API for Slack Socket Mode (javax.websocket compatibility) -->
+            <dependency>
+                <groupId>org.glassfish.tyrus.bundles</groupId>
+                <artifactId>tyrus-standalone-client</artifactId>
+                <version>1.21</version>
+            </dependency>
+            <!-- Playwright for Server-side PDF generation -->
+            <dependency>
+                <groupId>com.microsoft.playwright</groupId>
+                <artifactId>playwright</artifactId>
+                <version>1.40.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Make sure to generate lombok first and then mapstruct -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <!-- compile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <!-- Explicitly define annotation processors to avoid intermittent build issues -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.42</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!-- Support maven revision to configure the system version -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>oss</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Run test case -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <includes>
+                        <include>/ai/inquery/server/test/**/*.java</include>
+                    </includes>
+                    <excludes>
+                        <exclude>/ai/inquery/server/test/temp/**/*.java</exclude>
+                    </excludes>
+                    <testFailureIgnore>false</testFailureIgnore>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

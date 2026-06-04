@@ -1,0 +1,30 @@
+-- DBT integration configuration for user-scoped AI settings.
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_integration_type VARCHAR(32) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_git_repo_url VARCHAR(1024) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_git_branch VARCHAR(256) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_project_path VARCHAR(512) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_git_token VARCHAR(1024) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_manifest_url VARCHAR(1024) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_catalog_url VARCHAR(1024) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_artifact_token VARCHAR(1024) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_cloud_base_url VARCHAR(512) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_cloud_account_id VARCHAR(128) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_cloud_project_id VARCHAR(128) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_cloud_environment_id VARCHAR(128) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_cloud_job_id VARCHAR(128) DEFAULT NULL;
+ALTER TABLE user_ai_config ADD COLUMN IF NOT EXISTS dbt_cloud_api_token VARCHAR(1024) DEFAULT NULL;
+
+COMMENT ON COLUMN user_ai_config.dbt_integration_type IS 'DBT integration type: git, artifacts, cloud';
+COMMENT ON COLUMN user_ai_config.dbt_git_repo_url IS 'DBT Git repository URL';
+COMMENT ON COLUMN user_ai_config.dbt_git_branch IS 'DBT Git branch';
+COMMENT ON COLUMN user_ai_config.dbt_project_path IS 'Path to dbt project inside repository';
+COMMENT ON COLUMN user_ai_config.dbt_git_token IS 'DBT Git access token';
+COMMENT ON COLUMN user_ai_config.dbt_manifest_url IS 'DBT manifest.json URL';
+COMMENT ON COLUMN user_ai_config.dbt_catalog_url IS 'DBT catalog.json URL';
+COMMENT ON COLUMN user_ai_config.dbt_artifact_token IS 'Token for DBT artifact URLs';
+COMMENT ON COLUMN user_ai_config.dbt_cloud_base_url IS 'DBT Cloud base URL';
+COMMENT ON COLUMN user_ai_config.dbt_cloud_account_id IS 'DBT Cloud account ID';
+COMMENT ON COLUMN user_ai_config.dbt_cloud_project_id IS 'DBT Cloud project ID';
+COMMENT ON COLUMN user_ai_config.dbt_cloud_environment_id IS 'DBT Cloud environment ID';
+COMMENT ON COLUMN user_ai_config.dbt_cloud_job_id IS 'DBT Cloud job ID';
+COMMENT ON COLUMN user_ai_config.dbt_cloud_api_token IS 'DBT Cloud API token';

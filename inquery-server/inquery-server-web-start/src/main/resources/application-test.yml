@@ -1,0 +1,8 @@
+# port
+server:
+  port: 10822
+
+inquery:
+  gateway:
+    base-url:
+    model-base-url:

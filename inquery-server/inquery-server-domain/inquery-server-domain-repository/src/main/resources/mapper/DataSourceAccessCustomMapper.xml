@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ai.inquery.server.domain.repository.mapper.DataSourceAccessCustomMapper">
+    <select id="comprehensivePageQuery" resultType="ai.inquery.server.domain.repository.entity.DataSourceAccessDO">
+        select dsa.*
+        from data_source_access dsa
+        <if test="userOrTeamSearchKey != '' and userOrTeamSearchKey != null ">
+            left join team t on t.id = dsa.access_object_id and dsa.access_object_type = 'TEAM'
+            left join inquery_user du on du.id = dsa.access_object_id and dsa.access_object_type = 'USER'
+        </if>
+        <if test="dataSourceSearchKey != '' and dataSourceSearchKey != null ">
+            left join data_source ds on ds.id = dsa.data_source_id
+        </if>
+        <where>
+            <if test="dataSourceId != null ">
+                and dsa.data_source_id = #{dataSourceId}
+            </if>
+            <if test="accessObjectId != null ">
+                and dsa.access_object_id = #{accessObjectId}
+            </if>
+            <if test="accessObjectType != null ">
+                and dsa.access_object_type = #{accessObjectType}
+            </if>
+            <if test="userOrTeamSearchKey != '' and userOrTeamSearchKey != null ">
+                and (t.code like '%' || #{userOrTeamSearchKey} || '%' or t.name like '%' || #{userOrTeamSearchKey} || '%' or
+                du.user_name like '%' || #{userOrTeamSearchKey} || '%' or du.nick_name like '%' || #{userOrTeamSearchKey} || '%' or
+                du.email like '%' || #{userOrTeamSearchKey} || '%')
+            </if>
+            <if test="dataSourceSearchKey != '' and dataSourceSearchKey != null ">
+                and (ds.alias like '%' || #{dataSourceSearchKey} || '%' or ds.url like '%' || #{dataSourceSearchKey} || '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="checkTeamPermission" resultType="ai.inquery.server.domain.repository.entity.DataSourceAccessDO">
+        select dsa.*
+        from data_source_access dsa
+        left join team t on t.id = dsa.access_object_id and dsa.access_object_type = 'TEAM' and t.status = 'VALID'
+        left join team_user tu on tu.team_id = t.id
+        where dsa.data_source_id = #{dataSourceId}
+        and tu.user_id = #{userId}
+        limit 1
+    </select>
+
+
+</mapper>

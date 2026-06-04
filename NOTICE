@@ -1,0 +1,105 @@
+Inquery
+Copyright 2025 Inquery
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+================================================================================
+Third-Party Notices
+================================================================================
+
+This product includes or adapts source code from the following third parties.
+Each retains its original copyright and license. See the referenced paths for
+full license headers in individual files.
+
+--------------------------------------------------------------------------------
+OceanBase
+Copyright (c) 2023 OceanBase
+License: Apache License 2.0
+
+Used for SQL statement splitting and Oracle/PL-SQL lexer utilities:
+
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/Holder.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/LexerFactories.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/LexerFactory.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/LexerTokenDefinition.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/LexerTokenDefinitions.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/OBOraclePLLexerDefinition.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/OBOraclePLLexerFactory.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/OracleLexerDefinition.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/OracleLexerFactory.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/SplitSqlString.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/SqlSplitProcessor.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/SqlSplitter.java
+  inquery-server/inquery-spi/src/main/java/ai/inquery/spi/util/SqlStatementIterator.java
+
+--------------------------------------------------------------------------------
+DBeaver Corp
+Copyright (C) 2010-2023 DBeaver Corp and others
+License: Apache License 2.0
+
+Used for connection export / value encryption utilities (DBeaver NCX format):
+
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/util/XMLUtils.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ncx/enums/ExportConstants.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ncx/dbeaver/DefaultValueEncryptor.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ncx/dbeaver/DBSValueEncryptor.java
+
+--------------------------------------------------------------------------------
+Microsoft Corporation
+Copyright (c) Microsoft Corporation. All rights reserved.
+License: MIT License
+Origin: Microsoft (R) AutoRest Code Generator
+
+Used for Azure OpenAI / chat completion request model classes:
+
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ai/claude/model/ClaudeChatCompletionsOptions.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ai/fastchat/model/FastChatChoice.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ai/fastchat/model/FastChatCompletionsFinishReason.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ai/fastchat/model/FastChatCompletionsOptions.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ai/fastchat/model/FastChatCompletionsUsage.java
+  inquery-server/inquery-server-web/inquery-server-web-api/src/main/java/ai/inquery/server/web/api/controller/ai/fastchat/model/FastChatExpandableStringEnum.java
+
+MIT License (Microsoft portions):
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+================================================================================
+Runtime Dependencies
+================================================================================
+
+Inquery also depends on many open-source libraries at build and runtime (for
+example Spring Boot, LangChain4j, SvelteKit, Tauri, PostgreSQL/pgvector, and
+database JDBC drivers downloaded separately by users). Those components are
+distributed under their own licenses and are not listed exhaustively here.
+Refer to each dependency's published license (Maven `pom.xml`, npm
+`package-lock.json`, and vendor JDBC documentation) for details.
+
+JDBC drivers are not bundled with this repository. Users must download and
+install drivers for their target databases separately; each driver is subject
+to its vendor's license terms.

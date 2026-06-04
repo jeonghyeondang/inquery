@@ -1,0 +1,18 @@
+{
+  "dbType": "PRESTO",
+  "supportDatabase": true,
+  "supportSchema": true,
+  "driverConfigList": [
+    {
+      "url": "jdbc:presto://localhost:8080/",
+      "custom": false,
+      "defaultDriver": true,
+      "downloadJdbcDriverUrls": [
+        "https://repo1.maven.org/maven2/com/facebook/presto/presto-jdbc/0.245.1/presto-jdbc-0.245.1.jar"
+      ],
+      "jdbcDriver": "presto-jdbc-0.245.1.jar",
+      "jdbcDriverClass": "com.facebook.presto.jdbc.PrestoDriver"
+    }
+  ],
+  "name": "Presto"
+}

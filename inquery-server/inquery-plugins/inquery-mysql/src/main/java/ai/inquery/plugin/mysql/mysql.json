@@ -1,0 +1,52 @@
+{
+  "dbType": "MYSQL",
+  "supportDatabase": true,
+  "supportSchema": false,
+  "driverConfigList": [
+    {
+      "url": "jdbc:mysql://localhost:3306/",
+      "defaultDriver": true,
+      "custom": false,
+      "downloadJdbcDriverUrls": [
+        "https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar"
+      ],
+      "jdbcDriver": "mysql-connector-j-8.0.33.jar",
+      "jdbcDriverClass": "com.mysql.cj.jdbc.Driver",
+      "extendInfo": [
+        {
+          "key": "zeroDateTimeBehavior",
+          "value": "convertToNull",
+          "required": false
+        },
+        {
+          "key": "tinyInt1isBit",
+          "value": "false",
+          "required": false
+        }
+      ]
+    },
+    {
+      "url": "jdbc:mysql://localhost:3306/",
+      "defaultDriver": false,
+      "custom": false,
+      "downloadJdbcDriverUrls": [
+        "https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar"
+      ],
+      "jdbcDriver": "mysql-connector-java-5.1.49.jar",
+      "jdbcDriverClass": "com.mysql.jdbc.Driver",
+      "extendInfo": [
+        {
+          "key": "characterEncoding",
+          "value": "UTF-8",
+          "required": false
+        },
+        {
+          "key": "tinyInt1isBit",
+          "value": "false",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "name": "Mysql"
+}

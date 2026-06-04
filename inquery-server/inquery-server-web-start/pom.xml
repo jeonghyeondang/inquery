@@ -1,0 +1,195 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>ai.inquery</groupId>
+        <artifactId>inquery-server-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>inquery-server-web-start</artifactId>
+    <packaging>jar</packaging>
+    <name>inquery-server-web-start</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-web-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-admin-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-common-api</artifactId>
+        </dependency>
+        <!-- Services that need to be loaded -->
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-domain-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-tools-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.inquery</groupId>
+            <artifactId>inquery-server-tools-common</artifactId>
+        </dependency>
+
+        <!-- Log using logback -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!-- Database version management (Flyway 9.x - PostgreSQL support included in flyway-core) -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
+
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- JWT (already managed in parent pom) -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
+
+        <!-- template engine -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- http -->
+        <dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>logbook-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- MyBatis-Plus Spring Boot 3 Starter -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+
+        <!-- Embedded PostgreSQL for desktop mode -->
+        <dependency>
+            <groupId>io.zonky.test</groupId>
+            <artifactId>embedded-postgres</artifactId>
+        </dependency>
+        <!-- Native Apple Silicon PostgreSQL binaries (arm64) -->
+        <dependency>
+            <groupId>io.zonky.test.postgres</groupId>
+            <artifactId>embedded-postgres-binaries-darwin-arm64v8</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>inquery-server-web-start</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+                        --add-opens=java.base/java.nio=ALL-UNNAMED
+                    </jvmArguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <!--    <build>-->
+    <!--        <finalName>inquery-server-web-start</finalName>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                &lt;!&ndash;Remove third-party dependencies when packaging&ndash;&gt;-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <layout>ZIP</layout>-->
+    <!--                    <includes>-->
+    <!--                        <include>-->
+    <!--                            <groupId>non-exists</groupId>-->
+    <!--                            <artifactId>non-exists</artifactId>-->
+    <!--                        </include>-->
+    <!--                    </includes>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            &lt;!&ndash;Copy third-party dependency files to the specified directory&ndash;&gt;-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-dependency-plugin</artifactId>-->
+    <!--                <executions>-->
+    <!--                    <execution>-->
+    <!--                        <id>copy-dependencies</id>-->
+    <!--                        <phase>package</phase>-->
+    <!--                        <goals>-->
+    <!--                            <goal>copy-dependencies</goal>-->
+    <!--                        </goals>-->
+    <!--                        <configuration>-->
+    <!--                            &lt;!&ndash;target/lib is the output directory that depends on the jar package and can be configured according to your preferences.&ndash;&gt;-->
+    <!--                            <outputDirectory>target/lib</outputDirectory>-->
+    <!--                            <excludeTransitive>false</excludeTransitive>-->
+    <!--                            <stripVersion>false</stripVersion>-->
+    <!--                            <includeScope>runtime</includeScope>-->
+    <!--                        </configuration>-->
+    <!--                    </execution>-->
+    <!--                </executions>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
+</project>

@@ -1,0 +1,263 @@
+package ai.inquery.spi.jdbc;
+
+import ai.inquery.server.tools.base.excption.BusinessException;
+import ai.inquery.server.tools.common.exception.ConnectionException;
+import ai.inquery.spi.DBManage;
+import ai.inquery.spi.SqlBuilder;
+import ai.inquery.spi.ValueProcessor;
+import ai.inquery.spi.model.*;
+import ai.inquery.spi.sql.InqueryContext;
+import ai.inquery.spi.sql.ConnectInfo;
+import ai.inquery.spi.sql.IDriverManager;
+import ai.inquery.spi.sql.SQLExecutor;
+import ai.inquery.spi.ssh.SSHManager;
+import ai.inquery.spi.util.ResultSetUtils;
+import com.jcraft.jsch.Session;
+import jakarta.validation.constraints.NotEmpty;
+import org.apache.commons.lang3.StringUtils;
+
+import java.sql.Connection;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static ai.inquery.server.tools.base.constant.SymbolConstant.DOT;
+
+/**
+ */
+public class DefaultDBManage implements DBManage {
+
+    protected static final String DIVIDING_LINE = "-- ----------------------------";
+
+    protected static final String NEW_LINE = "\n";
+
+    protected static final String EXPORT_TITLE = DIVIDING_LINE + NEW_LINE + "-- Inquery export data , export time: %s" + NEW_LINE + DIVIDING_LINE;
+
+    protected static final String TABLE_TITLE = DIVIDING_LINE + NEW_LINE + "-- Table structure for table %s" + NEW_LINE + DIVIDING_LINE;
+
+    protected static final String VIEW_TITLE = DIVIDING_LINE + NEW_LINE + "-- View structure for view %s" + NEW_LINE + DIVIDING_LINE;
+
+    protected static final String FUNCTION_TITLE = DIVIDING_LINE + NEW_LINE + "-- Function structure for function %s" + NEW_LINE + DIVIDING_LINE;
+
+    protected static final String TRIGGER_TITLE = DIVIDING_LINE + NEW_LINE + "-- Trigger structure for trigger %s" + NEW_LINE + DIVIDING_LINE;
+
+    protected static final String PROCEDURE_TITLE = DIVIDING_LINE + NEW_LINE + "-- Procedure structure for procedure %s" + NEW_LINE + DIVIDING_LINE;
+
+    private static final String RECORD_TITLE = DIVIDING_LINE + NEW_LINE + "-- Records of %s" + NEW_LINE + DIVIDING_LINE;
+
+
+    @Override
+    public Connection getConnection(ConnectInfo connectInfo) {
+        Connection connection = connectInfo.getConnection();
+        SSHInfo ssh = connectInfo.getSsh();
+        String url = connectInfo.getUrl();
+        String host = connectInfo.getHost();
+        String port = connectInfo.getPort() + "";
+        Session session = null;
+        try {
+            if (connection != null && !connection.isClosed()) {
+                return connection;
+            }
+            if (ssh != null) {
+                ssh.setRHost(host);
+                ssh.setRPort(port);
+                session = getSession(ssh);
+                if (session != null) {
+                    url = url.replace(host, "127.0.0.1").replace(port, ssh.getLocalPort());
+                }
+            }
+        } catch (Exception e) {
+            throw new ConnectionException("connection.ssh.error", null, e);
+        }
+        try {
+            connection = IDriverManager.getConnection(url, connectInfo.getUser(), connectInfo.getPassword(),
+                    connectInfo.getDriverConfig(), connectInfo.getExtendMap());
+
+        } catch (Exception e1) {
+            close(connection, session, ssh);
+            throw new BusinessException("connection.error", null, e1);
+        }
+        connectInfo.setSession(session);
+        connectInfo.setConnection(connection);
+        if (StringUtils.isNotBlank(connectInfo.getDatabaseName()) || StringUtils.isNotBlank(connectInfo.getSchemaName())) {
+            connectDatabase(connection, connectInfo.getDatabaseName());
+        }
+        return connection;
+    }
+
+    private void close(Connection connection, Session session, SSHInfo ssh) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (Exception e) {
+            }
+        }
+        if (session != null) {
+            try {
+                session.delPortForwardingL(Integer.parseInt(ssh.getLocalPort()));
+            } catch (Exception e) {
+            }
+            try {
+                session.disconnect();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    private Session getSession(SSHInfo ssh) {
+        Session session = null;
+        if (ssh != null && ssh.isUse()) {
+            session = SSHManager.getSSHSession(ssh);
+        }
+        return session;
+    }
+
+    @Override
+    public void connectDatabase(Connection connection, String database) {
+
+    }
+
+    @Override
+    public void modifyDatabase(Connection connection, String databaseName, String newDatabaseName) {
+
+    }
+
+    @Override
+    public void createDatabase(Connection connection, String databaseName) {
+
+    }
+
+    @Override
+    public void dropDatabase(Connection connection, String databaseName) {
+
+    }
+
+    @Override
+    public void createSchema(Connection connection, String databaseName, String schemaName) {
+
+    }
+
+    @Override
+    public void dropSchema(Connection connection, String databaseName, String schemaName) {
+
+    }
+
+    @Override
+    public void modifySchema(Connection connection, String databaseName, String schemaName, String newSchemaName) {
+
+    }
+
+    @Override
+    public void dropFunction(Connection connection, String databaseName, String schemaName, String functionName) {
+
+    }
+
+    @Override
+    public void dropTrigger(Connection connection, String databaseName, String schemaName, String triggerName) {
+
+    }
+
+    @Override
+    public void dropProcedure(Connection connection, String databaseName, String schemaName, String triggerName) {
+
+    }
+
+    @Override
+    public void updateProcedure(Connection connection, String databaseName, String schemaName, Procedure procedure) throws SQLException {
+
+    }
+
+    @Override
+    public void exportDatabase(Connection connection, String databaseName, String schemaName, AsyncContext asyncContext) throws SQLException {
+
+    }
+
+    @Override
+    public void exportTable(Connection connection, String databaseName, String schemaName, String tableName, AsyncContext asyncContext) throws SQLException {
+
+    }
+
+    @Override
+    public void truncateTable(Connection connection, String databaseName, String schemaName, String tableName) throws SQLException {
+        String sql = "TRUNCATE TABLE " + tableName;
+        SQLExecutor.getInstance().execute(connection, sql, resultSet -> null);
+    }
+
+    @Override
+    public void copyTable(Connection connection, String databaseName, String schemaName, String tableName, String newTableName, boolean copyData) throws SQLException {
+        String sql = "";
+        if (copyData) {
+            sql = "CREATE TABLE " + newTableName + " AS SELECT * FROM " + tableName;
+        } else {
+            sql = "CREATE TABLE " + newTableName + " AS SELECT * FROM " + tableName + " WHERE 1=0";
+        }
+        SQLExecutor.getInstance().execute(connection, sql, resultSet -> null);
+    }
+
+    @Override
+    public void deleteProcedure(Connection connection, String databaseName, String schemaName, Procedure procedure) {
+        String procedureNewName = getSchemaOrProcedureName(procedure.getProcedureBody(), schemaName, procedure);
+        String sql = "DROP PROCEDURE " + procedureNewName;
+        SQLExecutor.getInstance().execute(connection, sql, resultSet -> null);
+    }
+
+    @Override
+    public void deleteFunction(Connection connection, String databaseName, String schemaName, Function function) {
+        String functionNewName = getSchemaOrFunctionName(function.getFunctionBody(), schemaName, function);
+        String sql = "DROP FUNCTION " + functionNewName;
+        SQLExecutor.getInstance().execute(connection, sql, resultSet -> null);
+    }
+
+    @Override
+    public void dropTable(Connection connection, String databaseName, String schemaName, String tableName) {
+        String sql = "DROP TABLE " + tableName;
+        SQLExecutor.getInstance().execute(connection, sql, resultSet -> null);
+    }
+
+    @Override
+    public void dropSequence(Connection connection, @NotEmpty String databaseName, String schemaName, @NotEmpty String sequenceName){
+        String sql = "DROP SEQUENCE " + schemaName + DOT + sequenceName;
+        SQLExecutor.getInstance().execute(connection, sql, resultSet -> null);
+    }
+
+    public void exportTableData(Connection connection, String databaseName, String schemaName, String tableName, AsyncContext asyncContext) {
+        SqlBuilder sqlBuilder = InqueryContext.getSqlBuilder();
+        String tableQuerySql = sqlBuilder.buildTableQuerySql(databaseName, schemaName, tableName);
+        asyncContext.info("export table data sql: " + tableQuerySql);
+        SQLExecutor.getInstance().execute(connection, tableQuerySql, 1000, resultSet -> {
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            List<String> columnList = ResultSetUtils.getRsHeader(resultSet);
+            List<String> valueList = new ArrayList<>();
+            asyncContext.write(String.format(RECORD_TITLE, tableName));
+            while (resultSet.next()) {
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    ValueProcessor valueProcessor = InqueryContext.getMetaData().getValueProcessor();
+                    JDBCDataValue jdbcDataValue = new JDBCDataValue(resultSet, metaData, i, false);
+                    String valueString = valueProcessor.getJdbcSqlValueString(jdbcDataValue);
+                    valueList.add(valueString);
+                }
+                String insertSql = sqlBuilder.buildSingleInsertSql(null, null, tableName, columnList, valueList);
+                asyncContext.write(insertSql + ";");
+                valueList.clear();
+            }
+        });
+
+    }
+
+    private static String getSchemaOrProcedureName(String procedureBody, String schemaName, Procedure procedure) {
+        if (procedureBody.toLowerCase().contains(schemaName.toLowerCase())) {
+            return procedure.getProcedureName();
+        } else {
+            return schemaName + "." + procedure.getProcedureName();
+        }
+    }
+
+    private static String getSchemaOrFunctionName(String functionBody, String schemaName, Function function) {
+        if (functionBody.toLowerCase().contains(schemaName.toLowerCase())) {
+            return function.getFunctionName();
+        } else {
+            return schemaName + "." + function.getFunctionName();
+        }
+    }
+}

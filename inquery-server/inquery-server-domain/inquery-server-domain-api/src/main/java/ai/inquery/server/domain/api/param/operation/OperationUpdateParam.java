@@ -1,0 +1,63 @@
+package ai.inquery.server.domain.api.param.operation;
+
+import jakarta.validation.constraints.NotNull;
+
+import lombok.Data;
+
+/**
+ * @version UserSavedDdlCreateParam.java, v 0.1 September 25, 2022 15:40 moji Exp $
+ */
+@Data
+public class OperationUpdateParam {
+
+    /**
+     * primary key
+     */
+    @NotNull
+    private Long id;
+
+    /**
+     * Data source connection ID
+     */
+    private Long dataSourceId;
+
+    /**
+     * databaseName
+     */
+    private String databaseName;
+
+    /**
+     * The space where the table is located
+     */
+    private String schemaName;
+
+    /**
+     * save name
+     */
+    private String name;
+
+    /**
+     * Database type
+     */
+    private String type;
+
+    /**
+     * ddl statement status: DRAFT/RELEASE
+     */
+    private String status;
+
+    /**
+     * ddl content
+     */
+    private String ddl;
+
+    /**
+     * Whether it is opened in the tab, y means open, n means not opened
+     */
+    private String tabOpened;
+
+    /**
+     * operation type
+     */
+    private String operationType;
+}

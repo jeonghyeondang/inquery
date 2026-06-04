@@ -1,0 +1,63 @@
+package ai.inquery.server.domain.api.param;
+
+import jakarta.validation.constraints.NotNull;
+
+import lombok.Data;
+
+/**
+ * @version DataSourceExecuteParam.java, v 0.1 October 14, 2022 13:53 moji Exp $
+ */
+@Data
+public class DlExecuteParam {
+
+    /**
+     * sql statement
+     */
+    @NotNull
+    private String sql;
+
+    /**
+     * console id
+     */
+    @NotNull
+    private Long consoleId;
+
+    /**
+     * Data source id
+     */
+    @NotNull
+    private Long dataSourceId;
+
+    /**
+     * databaseName
+     */
+    @NotNull
+    private String databaseName;
+
+
+    private String tableName;
+
+
+    /**
+     * schema name
+     */
+    private String schemaName;
+
+    /**
+     * Page coding
+     * Only the select statement has
+     */
+    private Integer pageNo;
+
+    /**
+     * Paging Size
+     * Only the select statement has
+     */
+    private Integer pageSize;
+
+    /**
+     * Return all data
+     * Only the select statement has
+     */
+    private Boolean pageSizeAll;
+}

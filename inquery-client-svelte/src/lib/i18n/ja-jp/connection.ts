@@ -1,0 +1,22 @@
+export default {
+	'connection.title': '接続',
+	'connection.title.connections': '接続',
+	'connection.title.createConnection': '新しい接続',
+	'connection.title.editConnection': '接続を編集',
+	'connection.label.name': '名前',
+	'connection.label.host': 'ホスト',
+	'connection.label.database': 'データベース',
+	'connection.label.port': 'ポート',
+	'connection.button.testConnection': 'テスト',
+	'connection.button.addConnection': '接続を追加',
+	'connection.button.connect': '接続',
+	'connection.button.remove': '削除',
+	'connection.button.createConnection': '接続を作成',
+	'connection.tips.noConnection': 'まだ接続が作成されていません',
+	'connection.tips.noConnectionTips': '新しいデータベース接続を作成して始めましょう',
+	'connection.message.testConnectResult': 'テスト接続は {1}',
+	'connection.label.advancedConfiguration': '詳細設定',
+	'connection.label.sshConfiguration': 'SSH設定',
+	'connection.label.authentication': '認証',
+	'connection.text.description': 'データベース接続を管理する'
+};

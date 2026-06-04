@@ -1,0 +1,72 @@
+package ai.inquery.server.domain.api.chart;
+
+import java.time.LocalDateTime;
+
+import lombok.Data;
+
+/**
+ * @version ChartCreateParam.java, v 0.1 June 9, 2023 15:38 moji Exp $
+ */
+@Data
+public class ChartCreateParam {
+
+    /**
+     * creation time
+     */
+    private LocalDateTime gmtCreate;
+
+    /**
+     * modified time
+     */
+    private LocalDateTime gmtModified;
+
+    /**
+     * chart name
+     */
+    private String name;
+
+    /**
+     * chart information
+     */
+    private String schema;
+
+    /**
+     * Data source connection ID
+     */
+    private Long dataSourceId;
+
+    /**
+     * Database type
+     */
+    private String type;
+
+    /**
+     * DB name
+     */
+    private String databaseName;
+
+    /**
+     * schemaName
+     */
+    private String schemaName;
+
+    /**
+     * ddl content
+     */
+    private String ddl;
+
+    /**
+     * Whether it has been deleted, y means deleted, n means not deleted
+     */
+    private String deleted;
+
+    /**
+     * user id
+     */
+    private Long userId;
+
+    /**
+     * Source type: AI_CHAT, WORKSPACE, DASHBOARD
+     */
+    private String sourceType;
+}

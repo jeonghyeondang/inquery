@@ -1,0 +1,48 @@
+package ai.inquery.server.domain.api.enums;
+
+
+import ai.inquery.server.tools.base.enums.BaseEnum;
+import lombok.Getter;
+
+/**
+ * table vector status
+ *
+ */
+@Getter
+public enum TableVectorEnum implements BaseEnum<String> {
+    /**
+     * SAVED
+     */
+    SAVED( "SAVED"),
+
+
+    ;
+
+    final String description;
+
+
+    TableVectorEnum(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Get enum by name
+     *
+     * @param name
+     * @return
+     */
+    public static TableVectorEnum getByName(String name) {
+        for (TableVectorEnum dbTypeEnum : TableVectorEnum.values()) {
+            if (dbTypeEnum.name().equals(name)) {
+                return dbTypeEnum;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String getCode() {
+        return this.name();
+    }
+
+}
